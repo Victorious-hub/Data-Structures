@@ -5,18 +5,20 @@ struct Node
 {
 	T data;
 	Node<T>* next = nullptr;
-	Node(){}
-	Node(T data):data(data){}
+	Node() {}
+	Node(T data) :data(data) {}
 };
 template<class T>
 class SinglyLinkedList
 {
+	int size;
 	Node<T>*  head;
 	Node<T>*  tail;
 public:
 	SinglyLinkedList()
 	{
 		head = tail = nullptr;
+		size = 0;
 	}
 	void push(T data)
 	{
@@ -27,35 +29,42 @@ public:
 		}
 		else {
 			Node<T>*  newNode = new Node<T>(data);
-			
-			head->next = newNode;
-			head = newNode;
+
+			tail->next = newNode;
+			tail = newNode;
 		}
+		++size;
 
 	}
 	void pop()
 	{
 		if (!head)return;
-		Node<T>* temp = head;
+		Node<T>* temp = tail;
 
-        head = temp->next;
+		tail = temp->next;
 
-	    delete temp;
-		
+		delete temp;
+		--size;
+
 	}
-	T peek()
+	T  peek()
 	{
-		if (head) {
-			return head->data;
+		Node<T>* newNode = head;
+		int counter = 1;
+		while (newNode) {
+
+			if (counter == size) return newNode->data;			
+			++counter;
+			newNode = newNode->next;
 		}
-		return "List is empty";
 	}
 
 	void display()
 	{
-		while (tail) {
-			std::cout << tail->data << "\n";
-			tail = tail->next;
+		Node<T>* newNode = head;
+		while (newNode) {
+			std::cout << newNode->data << "\n";
+			newNode = newNode->next;
 		}
 	}
 
@@ -71,5 +80,19 @@ int main()
 
 	SinglyLinkedList<std::string> lst;
 	lst.push("qwrqr");
-	std::cout << lst.empty();
+
+	lst.push("q424");
+
+	lst.push("q14144");
+
+	lst.push("q14144");
+
+	lst.pop();
+
+	lst.display();
+
+	lst.display();
+
+	std::cout << (lst.peek());
 }
+
